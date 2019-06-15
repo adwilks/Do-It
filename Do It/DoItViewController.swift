@@ -11,7 +11,7 @@ import UIKit
 class DoItViewController: UITableViewController {
 
     // Mark - TableView Datasource methods
-    let tableArray = ["Learn Karate", "Master art", "Defeat Sensei", "Become the master"]
+    var tableArray = ["Learn Karate", "Master art", "Defeat Sensei", "Become the master"]
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -39,5 +39,23 @@ class DoItViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    // Mark - Add New Item button
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        var newItemText = UITextField()
+        let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            //Handle item action
+            self.tableArray.append(newItemText.text!)
+            self.tableView.reloadData()
+        }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "New Item..."
+            newItemText = alertTextField
+        }
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
 }
 
