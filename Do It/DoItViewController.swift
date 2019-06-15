@@ -12,8 +12,13 @@ class DoItViewController: UITableViewController {
 
     // Mark - TableView Datasource methods
     var tableArray = ["Learn Karate", "Master art", "Defeat Sensei", "Become the master"]
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let table = defaults.array(forKey: "ToDoListArray") as? [String] {
+            tableArray = table
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -46,6 +51,7 @@ class DoItViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //Handle item action
             self.tableArray.append(newItemText.text!)
+            self.defaults.setValue(self.tableArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
         }
         alert.addTextField { (alertTextField) in
