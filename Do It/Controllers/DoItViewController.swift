@@ -7,23 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
-class DoItViewController: UITableViewController {
+class DoItViewController: UITableViewController{
 
     // View Properties
     var itemArray = [Item]()
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        
-        let item1 = Item("Learn Karate")
-        let item2 = Item("Defeat Sensei")
-        let item3 = Item("Become the Master")
-        itemArray.append(item1)
-        itemArray.append(item2)
-        itemArray.append(item3)
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         loadItems()
     }
     
@@ -51,14 +46,17 @@ class DoItViewController: UITableViewController {
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
     // Mark - Add New Item button
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var newItemText = UITextField()
         let alert = UIAlertController(title: "Add New Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             //Handle item action
-            let newItem = Item(newItemText.text!)
+            
+            let newItem = Item(context: self.context)
+            newItem.title = newItemText.text
+            newItem.isDone = false
             self.itemArray.append(newItem)
             self.saveItems()
             self.tableView.reloadData()
@@ -73,28 +71,43 @@ class DoItViewController: UITableViewController {
     }
     
     func saveItems() {
-        let encoder = PropertyListEncoder()
+        
         
         do {
-            let data = try encoder.encode(self.itemArray)
-            try data.write(to: self.dataFilePath!)
+            try context.save()
         } catch {
-            print("Error Encoding itemArray")
-            print(error)
+            print("Error Saving Context: \(error)")
         }
     }
     
-    func loadItems () {
+    func loadItems (with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("error decoding item list \(error)")
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Error fetching data: \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+}
+
+// Mark - Search Bar Delegate Methods
+extension DoItViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        loadItems(with: request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
             }
         }
     }
     
 }
-
