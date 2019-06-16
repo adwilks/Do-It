@@ -18,7 +18,6 @@ class DoItViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         loadItems()
     }
     
@@ -71,8 +70,6 @@ class DoItViewController: UITableViewController{
     }
     
     func saveItems() {
-        
-        
         do {
             try context.save()
         } catch {
