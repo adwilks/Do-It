@@ -41,7 +41,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="eia-Ty-idm" kind="show" identifier="goToDoIt" id="6Pm-ez-Uml"/>
+                        <segue destination="eia-Ty-idm" kind="show" identifier="gotoItems" id="6Pm-ez-Uml"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MXb-de-e5x" userLabel="First Responder" sceneMemberID="firstResponder"/>

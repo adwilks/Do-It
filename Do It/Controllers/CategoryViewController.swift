@@ -36,10 +36,17 @@ class CategoryViewController: UITableViewController {
     // MARK: - Table view Delegate Methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Load child item list on selection
-        tableView.deselectRow(at: indexPath, animated: true)
+        
+        performSegue(withIdentifier: "gotoItems", sender: self)
     }
     
-    // MARK: - Data Manipulation Methods
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! DoItViewController
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedCategory = categoryArray[indexPath.row]
+        }
+    }
+    
     
     
     
@@ -61,7 +68,7 @@ class CategoryViewController: UITableViewController {
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-    
+    // MARK: - Data Manipulation Methods
     func saveCategories() {
         
         
