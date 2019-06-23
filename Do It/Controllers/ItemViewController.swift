@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class DoItViewController: UITableViewController{
+class ItemViewController: SwipeTableViewController{
 
     // View Properties
     var toDoItems: Results<Item>?
@@ -31,9 +31,10 @@ class DoItViewController: UITableViewController{
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         if let item = toDoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
+            cell.backgroundColor = UIColor(hexString: toDoItems?[indexPath.row].cellColor)
             // Draw checkmark on row based on isDone state
             cell.accessoryType = item.isDone ? .checkmark : .none
         } else {
@@ -71,6 +72,7 @@ class DoItViewController: UITableViewController{
                 try self.realm.write {
                     let newItem = Item()
                     newItem.title = newItemText.text!
+                    newItem.cellColor = UIColor.randomFlat()?.hexValue()
                     currentCategory.items.append(newItem)
                 }
                 } catch {
@@ -94,10 +96,23 @@ class DoItViewController: UITableViewController{
         toDoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
     }
     
+    //MARK: Delete Data
+    override func updateModel(at indexPath: IndexPath) {
+        if let itemForDeletion = toDoItems?[indexPath.row]{
+            do {
+                try realm.write {
+                    realm.delete(itemForDeletion)
+                }
+            } catch {
+                print("Error deleting item: \(error)")
+            }
+        }
+    }
+    
 }
 
 // Mark - Search Bar Delegate Methods
-extension DoItViewController: UISearchBarDelegate {
+extension ItemViewController: UISearchBarDelegate {
     // Query the realm database for the searched for item(s)
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         toDoItems = toDoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)

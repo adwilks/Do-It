@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		7219701B22B4D14300EFD566 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7219701A22B4D14300EFD566 /* AppDelegate.swift */; };
-		7219701D22B4D14300EFD566 /* DoItViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7219701C22B4D14300EFD566 /* DoItViewController.swift */; };
+		7219701D22B4D14300EFD566 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7219701C22B4D14300EFD566 /* ItemViewController.swift */; };
 		7219702022B4D14300EFD566 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7219701E22B4D14300EFD566 /* Main.storyboard */; };
 		7219702222B4D14400EFD566 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7219702122B4D14400EFD566 /* Assets.xcassets */; };
 		7219702522B4D14400EFD566 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7219702322B4D14400EFD566 /* LaunchScreen.storyboard */; };
 		7219705922B61AB600EFD566 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7219705822B61AB600EFD566 /* CategoryViewController.swift */; };
 		7260B56F22BA5F5700E35654 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7260B56E22BA5F5700E35654 /* Item.swift */; };
 		7260B57122BA5F6500E35654 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7260B57022BA5F6500E35654 /* Category.swift */; };
+		7260B57322BF09E900E35654 /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7260B57222BF09E900E35654 /* SwipeTableViewController.swift */; };
 		8E5E648BD3909A3F50851574 /* Pods_Do_It.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02376A3BCFBE4059B03D94CB /* Pods_Do_It.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,7 +24,7 @@
 		4F9B2B23E0B4EF0F3C08AC66 /* Pods-Do It.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Do It.release.xcconfig"; path = "Target Support Files/Pods-Do It/Pods-Do It.release.xcconfig"; sourceTree = "<group>"; };
 		7219701722B4D14300EFD566 /* Do It.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Do It.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7219701A22B4D14300EFD566 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7219701C22B4D14300EFD566 /* DoItViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoItViewController.swift; sourceTree = "<group>"; };
+		7219701C22B4D14300EFD566 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		7219701F22B4D14300EFD566 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7219702122B4D14400EFD566 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7219702422B4D14400EFD566 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -31,6 +32,7 @@
 		7219705822B61AB600EFD566 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		7260B56E22BA5F5700E35654 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		7260B57022BA5F6500E35654 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		7260B57222BF09E900E35654 /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
 		C54631783A0A49F3565AEE0D /* Pods-Do It.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Do It.debug.xcconfig"; path = "Target Support Files/Pods-Do It/Pods-Do It.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,8 +100,9 @@
 			isa = PBXGroup;
 			children = (
 				7219701A22B4D14300EFD566 /* AppDelegate.swift */,
+				7260B57222BF09E900E35654 /* SwipeTableViewController.swift */,
 				7219705822B61AB600EFD566 /* CategoryViewController.swift */,
-				7219701C22B4D14300EFD566 /* DoItViewController.swift */,
+				7219701C22B4D14300EFD566 /* ItemViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -229,15 +232,19 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Do It/Pods-Do It-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -253,8 +260,9 @@
 			files = (
 				7260B56F22BA5F5700E35654 /* Item.swift in Sources */,
 				7219705922B61AB600EFD566 /* CategoryViewController.swift in Sources */,
-				7219701D22B4D14300EFD566 /* DoItViewController.swift in Sources */,
+				7219701D22B4D14300EFD566 /* ItemViewController.swift in Sources */,
 				7219701B22B4D14300EFD566 /* AppDelegate.swift in Sources */,
+				7260B57322BF09E900E35654 /* SwipeTableViewController.swift in Sources */,
 				7260B57122BA5F6500E35654 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

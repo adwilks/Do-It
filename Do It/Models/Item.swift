@@ -13,6 +13,7 @@ class Item: Object {
     @objc dynamic var title: String = ""
     @objc dynamic var isDone: Bool = false
     @objc dynamic var dateCreated: Date = Date()
+    @objc dynamic var cellColor: String? = ""
     // Represents the backward relationship to items
     var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
 }
