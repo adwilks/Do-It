@@ -21,8 +21,7 @@ class CategoryViewController: SwipeTableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCategories()
-        tableView.separatorStyle = .none
-        
+        view.backgroundColor = UIColor.flatGray()
     }
 
     // MARK: - Table view data source Methods
@@ -34,6 +33,7 @@ class CategoryViewController: SwipeTableViewController{
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added"
         cell.backgroundColor = UIColor(hexString: categoryArray?[indexPath.row].cellColor)
+        cell.textLabel?.textColor = UIColor(contrastingBlackOrWhiteColorOn: cell.backgroundColor, isFlat: true)
         
         return cell
     }

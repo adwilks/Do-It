@@ -8,10 +8,11 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 class ItemViewController: SwipeTableViewController{
-
     // View Properties
+    @IBOutlet weak var searchBar: UISearchBar!
     var toDoItems: Results<Item>?
     let realm = try! Realm()
     var selectedCategory : Category? {
@@ -23,6 +24,13 @@ class ItemViewController: SwipeTableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.flatGray()
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        title = selectedCategory?.name
+        guard let colorHex = selectedCategory?.cellColor else {fatalError()}
+        updateNavBar(withHexCode: colorHex)
     }
     
     // Mark - TableView Datasource methods
@@ -34,7 +42,12 @@ class ItemViewController: SwipeTableViewController{
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         if let item = toDoItems?[indexPath.row] {
             cell.textLabel?.text = item.title
-            cell.backgroundColor = UIColor(hexString: toDoItems?[indexPath.row].cellColor)
+            // Use parent category color to create the gradient flow for items
+            if let color = UIColor(hexString: selectedCategory?.cellColor).darken(byPercentage: (CGFloat(indexPath.row) / CGFloat(toDoItems!.count)) / 3.0) {
+                cell.backgroundColor = color
+                cell.textLabel?.textColor = UIColor(contrastingBlackOrWhiteColorOn: color, isFlat: true)
+            }
+            
             // Draw checkmark on row based on isDone state
             cell.accessoryType = item.isDone ? .checkmark : .none
         } else {
@@ -72,7 +85,6 @@ class ItemViewController: SwipeTableViewController{
                 try self.realm.write {
                     let newItem = Item()
                     newItem.title = newItemText.text!
-                    newItem.cellColor = UIColor.randomFlat()?.hexValue()
                     currentCategory.items.append(newItem)
                 }
                 } catch {
@@ -109,6 +121,18 @@ class ItemViewController: SwipeTableViewController{
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        updateNavBar(withHexCode: "1D9BF6")
+    }
+    
+    //MARK: Update Nav Bar
+    func updateNavBar(withHexCode colorHex: String) {
+        guard let navBar = navigationController?.navigationBar else { fatalError()}
+        guard let navBarColor = UIColor(hexString: colorHex) else {fatalError()}
+        navBar.barTintColor = navBarColor
+        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor(contrastingBlackOrWhiteColorOn: navBarColor, isFlat: true)!]
+        searchBar.barTintColor = navBarColor
+    }
 }
 
 // Mark - Search Bar Delegate Methods
